@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\CSVRow;
+use App\Services\CSVImporter\CSVImporter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class ImportCSVRow implements ShouldQueue
 {
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     /**
      * @var CSVRow
@@ -30,10 +32,11 @@ class ImportCSVRow implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param CSVImporter $csvImporter
      * @return void
      */
-    public function handle()
+    public function handle(CSVImporter $csvImporter)
     {
-        //
+        $csvImporter->importRow($this->csvRow);
     }
 }

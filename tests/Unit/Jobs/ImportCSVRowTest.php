@@ -26,14 +26,9 @@ class ImportCSVRowTest extends TestCase
             ]
         ]);
 
-        (new ImportCSVRow($csvRow))->handle();
+        dispatch(new ImportCSVRow($csvRow));
 
+        // Add assertions that test the high level success of the importer:
         $this->assertNull($csvRow->fresh()->errored_at);
-
-        $this->assertDatabaseHas('users', [
-            'email'      => 'john-doe@gmail.com',
-            'first_name' => 'John',
-            'last_name'  => 'Doe'
-        ]);
     }
 }

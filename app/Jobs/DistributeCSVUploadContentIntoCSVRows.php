@@ -1,59 +1,59 @@
-    <?php
+<?php
 
-    namespace App\Jobs;
+namespace App\Jobs;
 
-    use App\CSVRow;
-    use App\CSVUpload;
-    use Illuminate\Bus\Queueable;
-    use Illuminate\Queue\SerializesModels;
-    use Illuminate\Queue\InteractsWithQueue;
-    use Illuminate\Contracts\Queue\ShouldQueue;
-    use Illuminate\Foundation\Bus\Dispatchable;
+use App\CSVRow;
+use App\CSVUpload;
+use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 
-    class DistributeCSVUploadContentIntoCSVRows implements ShouldQueue
+class DistributeCSVUploadContentIntoCSVRows implements ShouldQueue
+{
+
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    /**
+     * @var CSVUpload
+     */
+    private $csvUpload;
+
+    /**
+     * Create a new job instance.
+     *
+     * @param CSVUpload $csvUpload
+     */
+    public function __construct(CSVUpload $csvUpload)
     {
-
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-        /**
-         * @var CSVUpload
-         */
-        private $csvUpload;
-
-        /**
-         * Create a new job instance.
-         *
-         * @param CSVUpload $csvUpload
-         */
-        public function __construct(CSVUpload $csvUpload)
-        {
-            $this->csvUpload = $csvUpload;
-        }
-
-        /**
-         * Execute the job.
-         *
-         * @return void
-         */
-        public function handle()
-        {
-            collect($this->csvUpload->file_contents)
-                ->each(function ($csvRow) {
-                    dispatch(new ImportCSVRow(CSVRow::create([
-                        'csv_upload_id' => $this->csvUpload->getKey(),
-                        'contents'      => $this->normalizeCSVRow($csvRow)
-                    ])));
-                });
-        }
-
-        /**
-         * @param array $csvRow
-         * @return array
-         */
-        private function normalizeCSVRow(array $csvRow)
-        {
-            return collect($this->csvUpload->column_mapping)
-                ->flatMap(function ($columnName, $index) use ($csvRow) {
-                    return [$columnName => $csvRow[$index]];
-                })->toArray();
-        }
+        $this->csvUpload = $csvUpload;
     }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        collect($this->csvUpload->file_contents)
+            ->each(function ($csvRow) {
+                dispatch(new ImportCSVRow(CSVRow::create([
+                    'csv_upload_id' => $this->csvUpload->getKey(),
+                    'contents'      => $this->normalizeCSVRow($csvRow)
+                ])));
+            });
+    }
+
+    /**
+     * @param array $csvRow
+     * @return array
+     */
+    private function normalizeCSVRow(array $csvRow)
+    {
+        return collect($this->csvUpload->column_mapping)
+            ->flatMap(function ($columnName, $index) use ($csvRow) {
+                return [$columnName => $csvRow[$index]];
+            })->toArray();
+    }
+}

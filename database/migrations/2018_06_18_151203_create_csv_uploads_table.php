@@ -7,11 +7,6 @@ use Illuminate\Database\Migrations\Migration;
 class CreateCsvUploadsTable extends Migration
 {
 
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('csv_uploads', function (Blueprint $table) {
@@ -24,11 +19,6 @@ class CreateCsvUploadsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('csv_uploads');

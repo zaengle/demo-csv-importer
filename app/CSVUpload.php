@@ -43,27 +43,42 @@ class CSVUpload extends Model
         'permissions'    => 'array'
     ];
 
+    /**
+     * @return array
+     */
     public function getHeaderRowAttribute()
     {
         return array_keys($this->file_contents[0]);
     }
 
+    /**
+     * @return array|mixed
+     */
     public function getPreviewRowsAttribute()
     {
         return array_slice($this->file_contents, 0, 5);
     }
 
+    /**
+     * @return int
+     */
     public function getAdditionalRowCountAttribute()
     {
         return (count($this->file_contents) - 5) < 0 ? 0 : count($this->file_contents) - 5;
     }
 
+    /**
+     * @return array
+     */
     public function getAvailableFieldsAttribute()
     {
         return [
             'first_name',
             'last_name',
             'email',
+            'allergies',
+            'emergency_contact_name',
+            'emergency_contact_phone'
         ];
     }
 }

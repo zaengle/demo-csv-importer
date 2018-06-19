@@ -65,8 +65,6 @@ class DistributeCSVUploadContentIntoCSVRowsTest extends TestCase
     /** @test */
     public function it_pushes_the_parsed_member_csv_data_into_individual_rows_with_headers()
     {
-        Bus::fake();
-
         $csvUpload = factory(CSVUpload::class)->create([
             'has_headers'    => true,
             'column_mapping' => [
@@ -88,7 +86,7 @@ class DistributeCSVUploadContentIntoCSVRowsTest extends TestCase
             ]
         ]);
 
-        (new Job($csvUpload))->handle();
+        dispatch(new Job($csvUpload));
 
         $this->assertDatabaseHas('csv_rows', [
             'csv_upload_id' => $csvUpload->getKey()
