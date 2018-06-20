@@ -15,6 +15,7 @@ Route::group([
     Route::group([
         'prefix' => '{csvUpload}'
     ], function() {
+        Route::get('/', 'CSVUploadController@show')->name('show');
         Route::get('map-columns', 'MapColumnsController@show')->name('map-columns.show');
         Route::post('map-columns', 'MapColumnsController@store')->name('map-columns.store');
     });

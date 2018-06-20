@@ -38,4 +38,45 @@ class AssignEmergencyContactTest extends TestCase
         $this->assertEquals('John Doe', $participant->emergencyContact->name);
         $this->assertEquals('555-555-5555', $participant->emergencyContact->phone);
     }
+
+    /**
+     * @test
+     * @expectedException \App\Services\CSVImporter\Exceptions\MissingEmergencyContactPhoneException
+     * @expectedExceptionMessage Emergency contact is missing a phone number.
+     */
+    public function it_throws_an_exception_if_the_emergency_contact_is_missing_a_phone()
+    {
+        $participant = factory(Participant::class)->create();
+
+        $rowContents = [
+            'emergency_contact_name' => 'John Doe',
+        ];
+
+        $csvRow = factory(CSVRow::class)->create(['contents' => $rowContents]);
+
+        $traveler = (new CSVImportTraveler())->setRow($csvRow)
+            ->setParticipant($participant);
+
+        (new AssignEmergencyContact())->handle($traveler, function () {});
+    }
+    /**
+     * @test
+     * @expectedException \App\Services\CSVImporter\Exceptions\MissingEmergencyContactNameException
+     * @expectedExceptionMessage Emergency contact is missing a name.
+     */
+    public function it_throws_an_exception_if_the_emergency_contact_is_missing_a_name()
+    {
+        $participant = factory(Participant::class)->create();
+
+        $rowContents = [
+            'emergency_contact_phone' => '555-555-5555'
+        ];
+
+        $csvRow = factory(CSVRow::class)->create(['contents' => $rowContents]);
+
+        $traveler = (new CSVImportTraveler())->setRow($csvRow)
+            ->setParticipant($participant);
+
+        (new AssignEmergencyContact())->handle($traveler, function () {});
+    }
 }

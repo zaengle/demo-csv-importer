@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CSVRowLog extends Model
 {
+
+    const LEVEL_ERROR = 'error';
+    const LEVEL_WARN = 'warn';
+
     /**
      * @var string
      */
@@ -25,5 +29,4 @@ class CSVRowLog extends Model
         'message',
         'level'
     ];
-
 }

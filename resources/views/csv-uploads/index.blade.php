@@ -1,7 +1,7 @@
 @extends('layouts/main')
 
 @section('content')
-    <div class="w-full max-w-sm mx-auto overflow-hidden">
+    <div class="w-full max-w-md mx-auto overflow-hidden">
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h3 class="pb-4 mt-0 font-bold">All Uploads</h3>
 
@@ -9,7 +9,11 @@
                 <thead>
                 <tr>
                     <th class="p-2 text-left">Filename</th>
-                    <th class="p-2 text-left">Row count</th>
+                    <th class="p-2 text-left">Total</th>
+                    <th class="p-2 text-left">Imported</th>
+                    <th class="p-2 text-left">Warned</th>
+                    <th class="p-2 text-left">Failed</th>
+                    <th></th>
                 </tr>
                 </thead>
                 @if($csvUploads->count())
@@ -22,6 +26,20 @@
                             <td class="p-2 text-sm">
                                 {{ count($csvUpload->file_contents) }}
                             </td>
+                            <td class="p-2 text-sm">
+                                {{ $csvUpload->importedRows->count() }}
+                            </td>
+                            <td class="p-2 text-sm">
+                                {{ $csvUpload->warnedRows->count() }}
+                            </td>
+                            <td class="p-2 text-sm">
+                                {{ $csvUpload->failedRows->count() }}
+                            </td>
+
+                            <td class="p-2 text-sm">
+                                <a href="{{ route('csv-uploads.show', $csvUpload->getKey()) }}" class="text-blue">Details</a>
+                            </td>
+
                         </tr>
                     @endforeach
                     </tbody>

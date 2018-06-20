@@ -18,7 +18,18 @@ class CSVUploadController extends Controller
     public function index()
     {
         return view('csv-uploads.index')->with([
-            'csvUploads' => CSVUpload::all()
+            'csvUploads' => CSVUpload::latest()->get()
+        ]);
+    }
+
+    /**
+     * @param CSVUpload $csvUpload
+     * @return $this
+     */
+    public function show(CSVUpload $csvUpload)
+    {
+        return view('csv-uploads.show')->with([
+            'csvUpload' => $csvUpload->load('rows.logs')
         ]);
     }
 

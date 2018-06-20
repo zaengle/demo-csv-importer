@@ -4,6 +4,10 @@ namespace App\Services\CSVImporter;
 
 use App\CSVRow;
 
+/**
+ * Class CSVImportTraveler
+ * @package App\Services\CSVImporter
+ */
 class CSVImportTraveler
 {
 
@@ -12,6 +16,9 @@ class CSVImportTraveler
      */
     private $row;
 
+    /**
+     * @var
+     */
     private $participant;
 
     /**

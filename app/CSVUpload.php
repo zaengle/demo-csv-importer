@@ -81,4 +81,36 @@ class CSVUpload extends Model
             'emergency_contact_phone'
         ];
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rows()
+    {
+        return $this->hasMany(CSVRow::class, 'csv_upload_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function importedRows()
+    {
+        return $this->hasMany(CSVRow::class, 'csv_upload_id')->imported();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function warnedRows()
+    {
+        return $this->hasMany(CSVRow::class, 'csv_upload_id')->warned();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function failedRows()
+    {
+        return $this->hasMany(CSVRow::class, 'csv_upload_id')->failed();
+    }
 }
