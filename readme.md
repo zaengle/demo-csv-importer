@@ -3,9 +3,9 @@
 This application is designed to be a companion to a series of articles on the Zaengle website illustrating one way to import csv data into a Laravel application.
 
 You can read the articles here: 
-- Part 1: [Uploading, Storing, and Mapping CSV Data](https://zaengle.com/blog/ADD_LINK_HERE)
-- Part 2: [Processing and Distributing the Individual Rows](https://zaengle.com/blog/ADD_LINK_HERE)
-- Part 3: [Error Handling and Status Updates](https://zaengle.com/blog/ADD_LINK_HERE)
+- Part 1: [Uploading, Storing, and Mapping CSV Data](https://zaengle.com/blog/building-a-csv-importer-part-1)
+- Part 2: [Processing and Distributing the Individual Rows](https://zaengle.com/blog/building-a-csv-importer-part-2)
+- Part 3: [Error Handling and Status Updates](https://zaengle.com/blog/building-a-csv-importer-part-3)
 
 It's not required that you install the demo application to go through the articles, but we've provided the instructions to do so if you desire. Otherwise you can use this repository as a reference since the articles only contain certain snippets of the code.
 
